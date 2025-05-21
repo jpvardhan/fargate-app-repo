@@ -1,0 +1,6 @@
+[
+  {
+    "name": "fargate-app",
+    "imageUri": "{AWS_ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/fargate-app:latest"
+  }
+]
