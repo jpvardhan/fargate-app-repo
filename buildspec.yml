@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 534561715191.dkr.ecr.us-east-1.amazonaws.com
+      - REPOSITORY_URI=534561715191.dkr.ecr.us-east-1.amazonaws.com/fargate-app
+      - COMMIT_HASH=
+      - IMAGE_TAG=latest
+  build:
+    commands:
+      - echo Build started on Mon Apr 13 02:44:38 EDT 2026
+      - echo Building the Docker image...
+      - docker build -t :latest .
+      - docker tag :latest :
+  post_build:
+    commands:
+      - echo Build completed on Mon Apr 13 02:44:38 EDT 2026
+      - echo Pushing the Docker images...
+      - docker push :latest
+      - docker push :
+      - echo Writing image definitions file...
+      - echo '[{"name":"fargate-app","imageUri":"':'"}]' > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
+    - appspec.yml
+    - taskdef.json
